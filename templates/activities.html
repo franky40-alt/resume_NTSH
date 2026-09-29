@@ -1,47 +1,405 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask a Question</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>課外活動｜我的學習歷程</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
     <style>
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: #f5f7fa;
             color: #333;
         }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
+
+        .page-header {
             text-align: center;
+            padding: 70px 20px 40px;
         }
-        section {
-            margin: 20px;
+
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
         }
-        .form-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        .page-header p {
+            font-size: 18px;
+            color: #666;
         }
+
+        .activities {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 20px 70px;
+        }
+
+        .activity-card {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+
+            background: white;
+            padding: 25px;
+            margin-bottom: 35px;
+
+            border-radius: 18px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .activity-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .activity-image {
+            width: 42%;
+            height: 260px;
+
+            object-fit: cover;
+
+            border-radius: 15px;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-date {
+            color: #777;
+            font-size: 15px;
+        }
+
+        .activity-content h2 {
+            font-size: 28px;
+            margin: 10px 0 15px;
+        }
+
+        .activity-content p {
+            font-size: 17px;
+            line-height: 1.9;
+        }
+
+        .activity-tag {
+            display: inline-block;
+
+            margin-top: 15px;
+            padding: 6px 15px;
+
+            background: #eef2f7;
+            border-radius: 20px;
+
+            font-size: 14px;
+        }
+
+        .back-button {
+            display: block;
+
+            width: fit-content;
+
+            margin: 10px auto 60px;
+
+            padding: 10px 25px;
+
+            background: #333;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+        }
+
+        .back-button:hover {
+            background: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+
+            background: #222;
+            color: white;
+        }
+
+
+        /* 手機版 */
+
+        @media (max-width: 768px) {
+
+            .activity-card,
+            .activity-card:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .activity-image {
+                width: 100%;
+                height: 220px;
+            }
+
+            .page-header h1 {
+                font-size: 34px;
+            }
+
+            .activity-content h2 {
+                font-size: 24px;
+            }
+
+        }
+
     </style>
+
 </head>
+
+
 <body>
-    <header>
-        <h1>課外活動</h1>
-    </header>
-    <section>
-        <div class="form-box">
-            <form action="/activities" method="post">
-                <label for="question">你的問題:</label><br>
-                <input type="text" id="question" name="question" value="{{ question }}"><br><br>
-                <label for="answer">答案:</label><br>
-                <input type="text" id="answer" name="answer" readonly value="{{ answer }}"><br><br>
-                <input type="submit" value="送出">
-                <input type="button" value="回首頁" onclick="window.location.href='/'">
-            </form>
+
+
+<!-- 導覽列 -->
+
+<nav>
+
+    <h2>我的學習歷程</h2>
+
+    <div>
+
+        <a href="/">首頁</a>
+
+        <a href="/#about">關於我</a>
+
+        <a href="/activities">課外活動</a>
+
+        <a href="/#portfolio">作品集</a>
+
+        <a href="/#future">未來規劃</a>
+
+    </div>
+
+</nav>
+
+
+<!-- 頁面標題 -->
+
+<header class="page-header">
+
+    <h1>🎨 課外活動</h1>
+
+    <p>
+        課堂之外的學習與成長，
+        讓我探索興趣、培養能力，也認識不同的人。
+    </p>
+
+</header>
+
+
+<!-- 課外活動 -->
+
+<main class="activities">
+
+
+    <!-- 活動 1 -->
+
+    <div class="activity-card">
+
+        <img
+            src="{{ url_for('static',
+            filename='images/activity1.jpg') }}"
+            alt="社團活動"
+            class="activity-image"
+        >
+
+        <div class="activity-content">
+
+            <span class="activity-date">
+                2024－2025
+            </span>
+
+            <h2>🏀 籃球社團</h2>
+
+            <p>
+加入籃球社是我高中三年非常寶貴的歷程，這裡不僅讓我培養了規律運動的習慣，更深化了我對「團隊合作」的理解。
+
+團隊溝通與角色定位：在球隊中，我主要擔任控球後衛/前鋒的角色。我明白個人得分並非唯一目標，更重要的是透過傳球與跑位帶動全隊節奏。這讓我學會在團隊中認清自身定位，並隨時與隊友保持溝通。
+
+堅持不懈與挫折復原力：高二參與校際交流賽時，我們曾面臨落後的劣勢。在訓練與比賽過程中，我學會了即使陷入困境也不輕言放棄，這種「不到最後一刻絕不服輸」的運動員精神，成為我面對高中課業的最大動力。
+
+均衡發展與自律：高三課業繁忙，但我堅持運用社團時間進行自主訓練。運動幫助我維持良好的體能與精神狀態，養成高度自律的作息，實現了課業與社團活動的平衡。
+            </p>
+
+            <span class="activity-tag">
+                社團活動
+            </span>
+
         </div>
-    </section>
+
+    </div>
+
+
+    <!-- 活動 2 -->
+
+    <div class="activity-card">
+
+        <img
+            src="{{ url_for('static',
+            filename='images/activity2.jpg') }}"
+            alt="志工服務"
+            class="activity-image"
+        >
+
+        <div class="activity-content">
+
+            <span class="activity-date">
+                2025
+            </span>
+
+            <h2>❤️ 志工服務</h2>
+
+            <p>
+                參與學校安排的志工服務，協助活動準備、
+                場地整理與服務工作。透過實際參與，
+                我學習到責任感、耐心以及與他人合作的重要性。
+            </p>
+
+            <span class="activity-tag">
+                志工服務
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- 活動 3 -->
+
+    <div class="activity-card">
+
+        <img
+            src="{{ url_for('static',
+            filename='images/activity3.jpg') }}"
+            alt="AI科技營隊"
+            class="activity-image"
+        >
+
+        <div class="activity-content">
+
+            <span class="activity-date">
+                2025
+            </span>
+
+            <h2>🤖 AI 科技營隊</h2>
+
+            <p>
+                參加人工智慧與程式設計相關營隊，
+                接觸 Python、人工智慧與生成式 AI。
+                透過實際操作，我開始對資訊科技產生
+                更濃厚的興趣。
+            </p>
+
+            <span class="activity-tag">
+                科技學習
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- 活動 4 -->
+
+    <div class="activity-card">
+
+        <img
+            src="{{ url_for('static',
+            filename='images/activity4.jpg') }}"
+            alt="企業參訪"
+            class="activity-image"
+        >
+
+        <div class="activity-content">
+
+            <span class="activity-date">
+                2026
+            </span>
+
+            <h2>🏢 企業參訪</h2>
+
+            <p>
+                參加企業參訪活動，了解資訊科技在實際
+                工作環境中的應用。透過與業界人員交流，
+                我更加了解未來職涯需要的能力，也開始
+                思考自己未來希望發展的方向。
+            </p>
+
+            <span class="activity-tag">
+                校外參訪
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- 活動 5 -->
+
+    <div class="activity-card">
+
+        <img
+            src="{{ url_for('static',
+            filename='images/activity5.jpg') }}"
+            alt="校內競賽"
+            class="activity-image"
+        >
+
+        <div class="activity-content">
+
+            <span class="activity-date">
+                2026
+            </span>
+
+            <h2>🏆 校內競賽</h2>
+
+            <p>
+                與同學組隊參加校內競賽，從題目發想、
+                資料蒐集到成果展示，都由團隊共同完成。
+                這次經驗讓我學習如何分工合作，也提升了
+                解決問題與表達想法的能力。
+            </p>
+
+            <span class="activity-tag">
+                競賽活動
+            </span>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<!-- 返回首頁 -->
+
+<a href="/" class="back-button">
+    ← 回到首頁
+</a>
+
+
+<!-- 頁尾 -->
+
+<footer>
+
+    <p>
+        © 2026 我的個人網站
+    </p>
+
+</footer>
+
+
 </body>
+
 </html>
