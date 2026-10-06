@@ -1,0 +1,256 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>電子書｜我的學習歷程</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        body {
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 70px 20px 40px;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .books {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px 20px 70px;
+        }
+
+        .book-card {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+
+            background: white;
+            padding: 25px;
+            margin-bottom: 35px;
+
+            border-radius: 18px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .book-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .book-image {
+            width: 42%;
+            height: 300px;
+
+            object-fit: cover;
+
+            border-radius: 15px;
+        }
+
+        .book-content {
+            flex: 1;
+        }
+
+        .book-date {
+            color: #777;
+            font-size: 15px;
+        }
+
+        .book-content h2 {
+            font-size: 28px;
+            margin: 10px 0 15px;
+        }
+
+        .book-content p {
+            font-size: 17px;
+            line-height: 1.9;
+        }
+
+        .book-tag {
+            display: inline-block;
+
+            margin-top: 15px;
+            padding: 6px 15px;
+
+            background: #eef2f7;
+            border-radius: 20px;
+
+            font-size: 14px;
+        }
+
+        .read-button {
+            display: inline-block;
+
+            margin-top: 18px;
+            padding: 9px 20px;
+
+            background: #333;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            transition: background 0.3s;
+        }
+
+        .read-button:hover {
+            background: #555;
+        }
+
+        .back-button {
+            display: block;
+
+            width: fit-content;
+
+            margin: 10px auto 60px;
+
+            padding: 10px 25px;
+
+            background: #333;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+        }
+
+        .back-button:hover {
+            background: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+
+            background: #222;
+            color: white;
+        }
+
+
+        /* 手機版 */
+
+        @media (max-width: 768px) {
+
+            .book-card,
+            .book-card:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .book-image {
+                width: 100%;
+                height: 250px;
+            }
+
+            .page-header h1 {
+                font-size: 34px;
+            }
+
+            .book-content h2 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- 導覽列 -->
+
+<nav>
+
+    <h2>我的學習歷程</h2>
+
+    <div>
+
+        <a href="/">首頁</a>
+
+        <a href="/#about">關於我</a>
+
+        <a href="/activities">課外活動</a>
+
+        <a href="/ebooks">電子書</a>
+
+        <a href="/#portfolio">作品集</a>
+
+        <a href="/#future">未來規劃</a>
+
+    </div>
+
+</nav>
+
+
+<!-- 頁面標題 -->
+
+<header class="page-header">
+
+    <h1>📚 我的電子書</h1>
+
+    <p>
+        整理我的學習成果、閱讀紀錄與作品，
+        透過電子書記錄學習與成長的過程。
+    </p>
+
+</header>
+
+
+<!-- 電子書內容 -->
+
+<main class="books">
+
+
+    <!-- 電子書 1 -->
+
+    <div class="book-card">
+
+        <img
+            src="{{ url_for('static',
+            filename='images/book1.jpg') }}"
+            alt="我的學習歷程"
+            class="book-image"
+        >
+
+        <div class="book-content">
+
+            <span class="book-date">
+                2026
+            </span>
+
+            <h2>📖 我的學習歷程</h2>
+
+            <p>
+                這本電子書主要記錄我在高中階段的學習經驗，
+                包含課堂學習、活動參與、作品製
