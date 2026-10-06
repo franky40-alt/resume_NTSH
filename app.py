@@ -108,7 +108,7 @@ def ebooks():
 
 @app.route('/html')
 def html():
-    return render_template('ebooks.html')
+    return render_template('html')
 
 if __name__ == '__main__':
     app.run(debug=True)
