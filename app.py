@@ -102,7 +102,13 @@ def electives():
 @app.route('/ai')
 def ai():
     return render_template('ai.html')
+@app.route('/ebooks')
+def ebooks():
+    return render_template('ebooks.html')
 
+@app.route('/html')
+def html():
+    return render_template('ebooks.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
