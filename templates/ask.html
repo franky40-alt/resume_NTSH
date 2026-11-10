@@ -1,47 +1,126 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask a Question</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        section {
-            margin: 20px;
-        }
-        .form-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <title>中韓中日翻譯</title>
 </head>
+
 <body>
-    <header>
-        <h1>字典</h1>
-    </header>
-    <section>
-        <div class="form-box">
-            <form action="/ask" method="post">
-                <label for="question">中文:</label><br>
-                <input type="text" id="question" name="question" value="{{ question }}"><br><br>
-                <label for="answer">韓文:</label><br>
-                <input type="text" id="answer" name="answer" readonly value="{{ answer }}"><br><br>
-                <input type="submit" value="送出">
-                <input type="button" value="回首頁" onclick="window.location.href='/'">
-            </form>
-        </div>
-    </section>
+
+    <h1>中韓中日翻譯系統</h1>
+
+    <form method="POST" action="/ask">
+
+        <!-- 選擇翻譯語言 -->
+        <label>選擇語言：</label>
+
+        <select name="language">
+
+            <option value="ko">韓文</option>
+
+            <option value="jp">日文</option>
+
+        </select>
+
+        <br><br>
+
+        <!-- 輸入中文 -->
+        <label>請輸入中文：</label>
+
+        <input type="text"
+               name="question"
+               value="{{ question }}"
+               required>
+
+        <br><br>
+
+        <button type="submit">
+            翻譯
+        </button>
+
+    </form>
+
+
+    {% if answer %}
+
+        <h2>翻譯結果</h2>
+
+        <p>中文：{{ question }}</p>
+
+        <p>翻譯：{{ answer }}</p>
+
+    {% endif %}
+
 </body>
+
 </html>
+
+
+2. 修改app.py:
+2.1 建立中日題庫
+# 建立中日題庫
+zh_jp_dict = {
+    "你好": "こんにちは",
+    "謝謝": "ありがとう",
+    "對不起": "ごめんなさい",
+    "早安": "おはようございます",
+    "晚安": "おやすみなさい",
+    "老師": "先生（せんせい）",
+    "學生": "学生（がくせい）",
+    "朋友": "友達（ともだち）",
+    "家人": "家族（かぞく）",
+    "愛": "愛（あい）"
+}
+
+2.2 修改def ask():
+
+@app.route('/competition')
+def competition():
+    return render_template('competition.html')
+
+# 中韓、中日翻譯共用路由
+@app.route('/ask', methods=['GET', 'POST'])
+def ask():
+
+    if request.method == 'POST':
+
+        # 讀取學生輸入的問題
+        question = request.form.get('question', '').strip()
+
+        # 讀取選擇的語言
+        language = request.form.get('language', 'ko')
+
+        # 根據語言選擇題庫
+        if language == 'ko':
+            dictionary = zh_ko_dict
+            language_name = "韓文"
+            template_name = "ask.html"
+
+        elif language == 'jp':
+            dictionary = zh_jp_dict
+            language_name = "日文"
+            template_name = "ask.html"
+
+        # 查詢答案
+        answer = dictionary.get(
+            question,
+            f"抱歉，我目前沒有這個詞的{language_name}對應。"
+        )
+
+        # 回傳答案
+        return render_template(
+            template_name,
+            question=question,
+            answer=answer,
+            language=language
+        )
+
+    # GET 時給空白欄位
+    return render_template(
+        'ask.html',
+        question="",
+        answer="",
+        language="ko"
+    )
