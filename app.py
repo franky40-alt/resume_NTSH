@@ -1,7 +1,65 @@
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
+2. 修改 ask.html
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <title>中韓中日翻譯</title>
+</head>
+
+<body>
+
+    <h1>中韓中日翻譯系統</h1>
+
+    <form method="POST" action="/ask">
+
+        <!-- 選擇翻譯語言 -->
+        <label>選擇語言：</label>
+
+        <select name="language">
+
+            <option value="ko">韓文</option>
+
+            <option value="jp">日文</option>
+
+        </select>
+
+        <br><br>
+
+        <!-- 輸入中文 -->
+        <label>請輸入中文：</label>
+
+        <input type="text"
+               name="question"
+               value="{{ question }}"
+               required>
+
+        <br><br>
+
+        <button type="submit">
+            翻譯
+        </button>
+
+    </form>
+
+
+    {% if answer %}
+
+        <h2>翻譯結果</h2>
+
+        <p>中文：{{ question }}</p>
+
+        <p>翻譯：{{ answer }}</p>
+
+    {% endif %}
+
+</body>
+
+</html>
 # 建立題庫
 zh_ko_dict = {
     "你好": "안녕하세요",
